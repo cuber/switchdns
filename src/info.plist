@@ -23,7 +23,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>A70A4E1E-712E-4575-967A-0AA64960904D</string>
+				<string>3152A3A2-FCCD-42B3-B07F-301144CD559B</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -41,6 +41,23 @@
 	<string>Switch DNS</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>escaping</key>
+				<integer>127</integer>
+				<key>script</key>
+				<string>sh dns.sh switch_dns {query}</string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>FF316160-82F1-4AC1-8D82-72A1F0AC9ED6</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -108,76 +125,15 @@ echo $dns | sed 's/ / vs /g'</string>
 				<key>escaping</key>
 				<integer>127</integer>
 				<key>keyword</key>
-				<string>dns</string>
+				<string>sdns</string>
 				<key>runningsubtext</key>
-				<string>Please Wait</string>
+				<string>zzZ...</string>
 				<key>script</key>
-				<string>P=(
-"Default empty"
-"Alibaba 223.5.5.5 223.6.6.6"
-"V2EX 199.91.73.222 178.79.131.110"
-"DNSPod 114.114.114.114 114.114.115.115"
-"Google 8.8.8.8 8.8.4.4"
-"OpenDNS 42.120.21.30"
-)
-
-function inet()
-{
-  local net=$(netstat -rn | awk '/default/{print $NF}')
-  echo $(networksetup -listnetworkserviceorder | \
-         awk "/$net/{print \$3}" | tr -d ', ')
-}
-
-function item() {
-local s=$(echo $3 | sed 's/+/ vs /g')
-cat &lt;&lt;EOF
-    &lt;item uid="" arg="$4:$1"&gt;
-      &lt;title&gt;$2&lt;/title&gt;
-      &lt;subtitle&gt;$s&lt;/subtitle&gt;
-      &lt;icon&gt;icons/$4.png&lt;/icon&gt;
-    &lt;/item&gt;
-EOF
-}
-
-function cur() {
-  local title dns s
-  dns=$(networksetup -getdnsservers "$(inet)" | tr "\\n" " " | \
-        sed -e 's/ $//g')
-  for ((i = 0; i &lt; ${#P[@]}; i++)); do
-    if [ ! -z $s ]; then break; fi
-    s=$(echo ${P[$i]} | grep -iE "$dns" | awk '{print $1}')
-  done
-  title="Current"
-  if [ -z $s ]; then 
-    s="Default"
-    dns="empty"
-    unset P[0] 
-    P=("${P[@]}")
-  else
-    title="$title:"
-  fi
-  item "$dns" "$title $s" "$dns" $s
-}
-
-function def() {
-  local S name dns ret=cur
-  for ((i = 0; i &lt; ${#P[@]}; i++)); do
-    S=${P[$i]}
-    name=$(echo $S | awk '{print $1}')
-    dns=$(echo $S | awk '{$1=""; print $0}' | \
-          sed -e 's/^ //g' -e 's/ /+/g')
-    item "$dns" $name "$dns" $name
-  done
-}
-
-echo '&lt;?xml version="1.0"?&gt;&lt;items&gt;'
-cur
-def
-echo '&lt;/items&gt;'</string>
+				<string>sh dns.sh list_dns</string>
 				<key>subtext</key>
-				<string>DNS Switcher</string>
+				<string>快速切换 DNS 服务器设置</string>
 				<key>title</key>
-				<string>DNS Switcher</string>
+				<string>Switch DNS</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>

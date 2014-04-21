@@ -25,12 +25,14 @@ Alfred 2 workflow: 快速切换 DNS 服务器设置
 Usage                 
 =====                 
 
-![tag](http://ww2.sinaimg.cn/large/68bd1777gw1efmjo11l79j20gt0auq3s.jpg)
+Alfred 框中输入 sdns, 从下拉列表中选取需要的 DNS 后，回车即可
 
-*Alfred 框中输入 dns, 根据提示选择所需DNS即可*
+使用截图:
+
+![screenshot.png](https://raw.githubusercontent.com/dangoakachan/switchdns/master/screenshot.png)
 
 Download
-=====
+========
 [Click Me](https://github.com/cuber/switchdns/raw/master/switchdns.alfredworkflow)
 
 ChangeLog
