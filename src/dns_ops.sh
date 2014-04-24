@@ -26,8 +26,8 @@ function get_curr_network_dev()
 function get_network_service()
 {
     # Do not check $1 value, maybe empty?
-    networksetup -listnetworkserviceorder | awk \
-            "/$1/{print \$3}" | tr -d ', ' | head -1
+    networksetup -listnetworkserviceorder | grep "$1" | \
+    awk -F',' '{print $1}' | awk -F': ' '{print $2}'
 }
 
 # Get the dns servers
@@ -94,7 +94,8 @@ function switch_dns()
     # Clear the dns cache
     dscacheutil -flushcache
 
-    echo "切换配置到 '$dns_desc', 当前 DNS 为 '$dns_servers'"
+    echo "切换配置到 '$dns_desc'"
+    echo "当前 DNS 为 '$dns_servers'"
 }
 
 # The main entry
